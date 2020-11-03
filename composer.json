@@ -4,7 +4,6 @@
     "type": "library",
     "keywords": ["laravel-admin", "extension", "grid", "filter"],
     "require": {
-        "encore/laravel-admin": "*",
         "php": ">=7.0.0"
     },
     "autoload": {
