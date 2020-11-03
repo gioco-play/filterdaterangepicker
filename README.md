@@ -7,7 +7,7 @@ composer require gioco-plus/filterdaterangepicker
 
 共用資源 - 語系
 ```
-php artisan vendor:publish --provider=GiocoPlus\FilterDateRangePicker\FilterDateRangePickerServiceProvider
+php artisan vendor:publish --provider="GiocoPlus\\FilterDateRangePicker\\FilterDateRangePickerServiceProvider"
 ```
 
 搜索Timestamp欄位
