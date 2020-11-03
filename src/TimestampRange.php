@@ -6,7 +6,7 @@ use Encore\Admin\Grid\Filter\AbstractFilter;
 use GiocoPlus\FilterDateRangePicker\Presenter\FilterDaterangePicker;
 use Illuminate\Support\Arr;
 
-class Timestamp extends AbstractFilter {
+class TimestampRange extends AbstractFilter {
 
 
     /**
