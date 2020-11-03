@@ -2,7 +2,7 @@
     "name": "gioco-plus/filterdaterangepicker",
     "description": "laravel-admin Grid Filter Timestamp Daterange Picker",
     "type": "library",
-    "keywords": ["laravel-admin", "extension"],
+    "keywords": ["laravel-admin", "extension", "grid", "filter"],
     "require": {
         "encore/laravel-admin": "*",
         "php": ">=7.0.0"
