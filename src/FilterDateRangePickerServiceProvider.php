@@ -23,6 +23,7 @@ class FilterDateRangePickerServiceProvider extends ServiceProvider
         $this->registerPublishing();
 
         Admin::booting(function () {
+            Admin::js('vendor/laravel-admin-ext/filterdaterangepicker/moment.min.js');
             Admin::js('vendor/laravel-admin-ext/filterdaterangepicker/daterangepicker.js');
             Admin::css('vendor/laravel-admin-ext/filterdaterangepicker/daterangepicker.css');
         });
