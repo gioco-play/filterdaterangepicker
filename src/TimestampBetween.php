@@ -2,7 +2,7 @@
 
 namespace GiocoPlus\FilterDateRangePicker;
 
-use Encore\Admin\Grid\Filter\Between;
+use GiocoPlus\Admin\Grid\Filter\Between;
 use Illuminate\Support\Arr;
 
 class TimestampBetween extends Between {

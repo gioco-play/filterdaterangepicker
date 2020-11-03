@@ -2,8 +2,8 @@
 
 namespace GiocoPlus\FilterDateRangePicker\Presenter;
 
-use Encore\Admin\Grid\Filter\Presenter\Presenter;
-use Encore\Admin\Facades\Admin;
+use GiocoPlus\Admin\Grid\Filter\Presenter\Presenter;
+use GiocoPlus\Admin\Facades\Admin;
 use Illuminate\Support\Arr;
 
 class FilterDaterangePicker extends Presenter

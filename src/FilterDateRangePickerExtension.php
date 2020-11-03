@@ -2,7 +2,7 @@
 
 namespace GiocoPlus\FilterDateRangePicker;
 
-use Encore\Admin\Extension;
+use GiocoPlus\Admin\Extension;
 
 class FilterDateRangePickerExtension extends Extension
 {

@@ -2,7 +2,7 @@
 
 namespace GiocoPlus\FilterDateRangePicker;
 
-use Encore\Admin\Admin;
+use GiocoPlus\Admin\Admin;
 use Illuminate\Support\ServiceProvider;
 
 class FilterDateRangePickerServiceProvider extends ServiceProvider

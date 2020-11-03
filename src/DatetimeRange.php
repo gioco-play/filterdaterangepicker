@@ -2,7 +2,7 @@
 
 namespace GiocoPlus\FilterDateRangePicker;
 
-use Encore\Admin\Grid\Filter\AbstractFilter;
+use GiocoPlus\Admin\Grid\Filter\AbstractFilter;
 use GiocoPlus\FilterDateRangePicker\Presenter\FilterDaterangePicker;
 use Illuminate\Support\Arr;
 
