@@ -1,5 +1,15 @@
 laravel-admin Grid時間範圍選擇器
 
+安裝
+```
+composer require gioco-plus/filterdaterangepicker
+```
+
+共用資源 - 語系
+```
+php artisan vendor:publish --provider=GiocoPlus\FilterDateRangePicker\FilterDateRangePickerServiceProvider
+```
+
 搜索Timestamp欄位
 ```
 $filter->use(new TimestampBetween('trans_at', __('form.deposit_list.trans_at')))->datetime();
