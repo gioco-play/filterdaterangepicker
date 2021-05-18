@@ -25,5 +25,8 @@
         $("input[name='{{$name}}']").on('apply.daterangepicker', function(ev, picker) {
             $(this).val(picker.startDate.format('{{$format}}') + ' - ' + picker.endDate.format('{{$format}}'));
         });
+        $("input[name='{{$name}}']").on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
     })()
 </script>
