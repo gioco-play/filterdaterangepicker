@@ -46,6 +46,7 @@ class FilterDaterangePicker extends Presenter
     protected function getOptions(array $options) : array
     {
         $_options = [
+            'timePicker' => true,
             'timePicker24Hour' => true,
             'timePickerSeconds' => true,
             'locale' => ['format' =>  Arr::get($options, 'format', $this->format)]
