@@ -46,6 +46,8 @@ class FilterDaterangePicker extends Presenter
     protected function getOptions(array $options) : array
     {
         $_options = [
+            'timePicker24Hour' => true,
+            'timePickerSeconds' => true,
             'locale' => ['format' =>  Arr::get($options, 'format', $this->format)]
         ];
         $options = array_merge_recursive_distinct($_options, $options);
