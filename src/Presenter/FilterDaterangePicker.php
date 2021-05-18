@@ -68,6 +68,7 @@ class FilterDaterangePicker extends Presenter
 
         return [
             'group' => $this->filter->group,
+            'format' => $this->format
         ];
     }
 }
