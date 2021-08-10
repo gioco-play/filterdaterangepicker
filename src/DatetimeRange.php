@@ -56,32 +56,40 @@ class DatetimeRange extends AbstractFilter {
      */
     public function daterangepicker($options = []) {
 
-        $_options = [
-            'maxDate' => date('Y-m-d h:i:s',strtotime('+1 day')),
-            "maxSpan" => [
-                "days" => 7
-            ],
-            'ranges' => [
-                trans('filterdaterangepicker.today') => [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')],
-                trans('filterdaterangepicker.yesterday') => [date('Y-m-d 00:00:00',strtotime('-1 day')), date('Y-m-d 23:59:59',strtotime('-1 day'))],
-                trans('filterdaterangepicker.3days') => [date('Y-m-d 00:00:00',strtotime('-3 day')), date('Y-m-d 23:59:59')],
-                trans('filterdaterangepicker.7days') => [date('Y-m-d 00:00:00',strtotime('-7 day')), date('Y-m-d 23:59:59')]
-            ],
-            'locale' => [
-                'applyLabel' => trans('filterdaterangepicker.apply'),
-                'cancelLabel' => trans('filterdaterangepicker.cancel'),
-                'fromLabel' => trans('filterdaterangepicker.from'),
-                'toLabel' => trans('filterdaterangepicker.to'),
-                'customRangeLabel' => trans('filterdaterangepicker.customRange'),
-                'daysOfWeek' => trans('filterdaterangepicker.daysOfWeek'),
-                'monthNames' => trans('filterdaterangepicker.monthNames'),
-                'firstDay' => 1
-            ]
-        ];
+        $_options = $this->trans(config('daterangepicker.datetime'));
 
         $options = array_merge_recursive_distinct($_options, $options);
 
         return $this->setPresenter(new FilterDaterangePicker($options));
+    }
+
+    /**
+     * 翻譯config
+     *
+     * @param array $config
+     * @return void
+     */
+    private function trans($config = [])
+    {
+        foreach ($config as $key => $value) {
+
+            switch ($key) {
+                case 'ranges':
+                    $ranges = [];
+                    foreach ($value as $k => $v) {
+                        $ranges[trans($k)] = $v;
+                    }
+                    $config['ranges'] = $ranges;
+                    break;
+                case 'locale':
+                    foreach ($value as $k =>$v) {
+                        $value[$k] = trans($v);
+                    }
+                    $config['locale'] = $value;
+                    break;
+            }
+        }
+        return $config;
     }
 
 }

@@ -39,6 +39,7 @@ class FilterDateRangePickerServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../resources/lang' => resource_path('lang')], 'laravel-admin-filterdaterangepicker');
             $this->publishes([__DIR__.'/../resources/assets' => public_path('vendor/laravel-admin-ext/filterdaterangepicker')], 'laravel-admin-filterdaterangepicker');
+            $this->publishes([__DIR__.'/config.php' => config_path('daterangepicker.php')], 'laravel-admin-filterdaterangepicker');
         }
     }
 }
