@@ -55,6 +55,8 @@
         this.autoUpdateInput = true;
         this.alwaysShowCalendars = false;
         this.ranges = {};
+        this.disableMinutes = [];
+        this.defaultPickerSeconds = 0;
 
         this.opens = 'right';
         if (this.element.hasClass('pull-right'))
@@ -286,6 +288,13 @@
                 iterator--;
             }
         }
+
+        // set default picker seconds
+        if (typeof options.defaultPickerSeconds === 'number')
+            this.defaultPickerSeconds = options.defaultPickerSeconds;
+
+        if (typeof options.disableMinutes === 'object')
+            this.disableMinutes = options.disableMinutes;
 
         var start, end, range;
 
@@ -582,7 +591,7 @@
                     if (isNaN(minute)) {
                         minute = parseInt(this.container.find('.left .minuteselect option:last').val(), 10);
                     }
-                    second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect').val(), 10) : 0;
+                    second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect').val(), 10) : this.defaultPickerSeconds;
                     if (!this.timePicker24Hour) {
                         var ampm = this.container.find('.left .ampmselect').val();
                         if (ampm === 'PM' && hour < 12)
@@ -596,7 +605,7 @@
                     if (isNaN(minute)) {
                         minute = parseInt(this.container.find('.right .minuteselect option:last').val(), 10);
                     }
-                    second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) : 0;
+                    second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) : this.defaultPickerSeconds;
                     if (!this.timePicker24Hour) {
                         var ampm = this.container.find('.right .ampmselect').val();
                         if (ampm === 'PM' && hour < 12)
@@ -948,9 +957,9 @@
 
                 if (selected.minute() == i && !disabled) {
                     html += '<option value="' + i + '" selected="selected">' + padded + '</option>';
-                } else if (disabled) {
+                } else if (disabled && (this.disableMinutes.length < 1 || !this.disableMinutes.includes(i))) {
                     html += '<option value="' + i + '" disabled="disabled" class="disabled">' + padded + '</option>';
-                } else {
+                } else if (this.disableMinutes.length < 1 || !this.disableMinutes.includes(i)) {
                     html += '<option value="' + i + '">' + padded + '</option>';
                 }
             }
@@ -1323,7 +1332,7 @@
                     if (isNaN(minute)) {
                         minute = parseInt(this.container.find('.left .minuteselect option:last').val(), 10);
                     }
-                    var second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect').val(), 10) : 0;
+                    var second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect').val(), 10) : this.defaultPickerSeconds;
                     date = date.clone().hour(hour).minute(minute).second(second);
                 }
                 this.endDate = null;
@@ -1346,7 +1355,7 @@
                     if (isNaN(minute)) {
                         minute = parseInt(this.container.find('.right .minuteselect option:last').val(), 10);
                     }
-                    var second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) : 0;
+                    var second = this.timePickerSeconds ? parseInt(this.container.find('.right .secondselect').val(), 10) : this.defaultPickerSeconds;
                     date = date.clone().hour(hour).minute(minute).second(second);
                 }
                 this.setEndDate(date.clone());
@@ -1465,7 +1474,7 @@
             if (isNaN(minute)) {
                 minute = parseInt(cal.find('.minuteselect option:last').val(), 10);
             }
-            var second = this.timePickerSeconds ? parseInt(cal.find('.secondselect').val(), 10) : 0;
+            var second = this.timePickerSeconds ? parseInt(cal.find('.secondselect').val(), 10) : this.defaultPickerSeconds;
 
             if (!this.timePicker24Hour) {
                 var ampm = cal.find('.ampmselect').val();
