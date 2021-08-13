@@ -51,6 +51,11 @@ class FilterDaterangePicker extends Presenter
             'timePickerSeconds' => true,
             'locale' => ['format' =>  Arr::get($options, 'format', $this->format)]
         ];
+
+        if (isset($options['locale']['format'])){
+            $this->format = $options['locale']['format'];
+        }
+        
         $options = array_merge_recursive_distinct($_options, $options);
         return $options;
     }
