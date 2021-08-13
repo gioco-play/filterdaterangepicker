@@ -55,7 +55,7 @@
         this.autoUpdateInput = true;
         this.alwaysShowCalendars = false;
         this.ranges = {};
-        this.disableMinutes = [];
+        this.timePickerMinutes = false;
         this.defaultPickerSeconds = 0;
 
         this.opens = 'right';
@@ -293,8 +293,8 @@
         if (typeof options.defaultPickerSeconds === 'number')
             this.defaultPickerSeconds = options.defaultPickerSeconds;
 
-        if (typeof options.disableMinutes === 'object')
-            this.disableMinutes = options.disableMinutes;
+        if (typeof options.timePickerMinutes === 'boolean')
+            this.timePickerMinutes = options.timePickerMinutes;
 
         var start, end, range;
 
@@ -512,8 +512,8 @@
             if (this.maxSpan && this.startDate.clone().add(this.maxSpan).isBefore(this.endDate))
                 this.endDate = this.startDate.clone().add(this.maxSpan);
 
-            endDate = endDate.endOf('day')
-            this.endDate =  this.endDate.endOf('day')
+            // endDate = endDate.endOf('day')
+            // this.endDate =  this.endDate.endOf('day')
             
             this.previousRightTime = this.endDate.clone();
 
@@ -943,28 +943,30 @@
             // minutes
             //
 
-            html += ': <select class="minuteselect">';
+            if (this.timePickerMinutes) {
+                html += ': <select class="minuteselect">';
 
-            for (var i = 0; i < 60; i += this.timePickerIncrement) {
-                var padded = i < 10 ? '0' + i : i;
-                var time = selected.clone().minute(i);
-
-                var disabled = false;
-                if (minDate && time.second(59).isBefore(minDate))
-                    disabled = true;
-                if (maxDate && time.second(0).isAfter(maxDate))
-                    disabled = true;
-
-                if (selected.minute() == i && !disabled) {
-                    html += '<option value="' + i + '" selected="selected">' + padded + '</option>';
-                } else if (disabled && (this.disableMinutes.length < 1 || !this.disableMinutes.includes(i))) {
-                    html += '<option value="' + i + '" disabled="disabled" class="disabled">' + padded + '</option>';
-                } else if (this.disableMinutes.length < 1 || !this.disableMinutes.includes(i)) {
-                    html += '<option value="' + i + '">' + padded + '</option>';
+                for (var i = 0; i < 60; i += this.timePickerIncrement) {
+                    var padded = i < 10 ? '0' + i : i;
+                    var time = selected.clone().minute(i);
+    
+                    var disabled = false;
+                    if (minDate && time.second(59).isBefore(minDate))
+                        disabled = true;
+                    if (maxDate && time.second(0).isAfter(maxDate))
+                        disabled = true;
+    
+                    if (selected.minute() == i && !disabled) {
+                        html += '<option value="' + i + '" selected="selected">' + padded + '</option>';
+                    } else if (disabled) {
+                        html += '<option value="' + i + '" disabled="disabled" class="disabled">' + padded + '</option>';
+                    } else {
+                        html += '<option value="' + i + '">' + padded + '</option>';
+                    }
                 }
+    
+                html += '</select> ';
             }
-
-            html += '</select> ';
 
             //
             // seconds

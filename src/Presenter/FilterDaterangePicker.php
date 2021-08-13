@@ -48,6 +48,7 @@ class FilterDaterangePicker extends Presenter
         $_options = [
             'timePicker' => true,
             'timePicker24Hour' => true,
+            'timePickerMinutes' => true,
             'timePickerSeconds' => true,
             'locale' => ['format' =>  Arr::get($options, 'format', $this->format)]
         ];
