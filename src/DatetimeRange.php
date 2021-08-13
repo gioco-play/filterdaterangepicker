@@ -54,9 +54,9 @@ class DatetimeRange extends AbstractFilter {
      *
      * @return void
      */
-    public function daterangepicker($options = []) {
+    public function daterangepicker($conf = 'default', $options = []) {
 
-        $_options = $this->trans(config('daterangepicker.datetime'));
+        $_options = $this->trans(config("daterangepicker.{$conf}"));
 
         $options = array_merge_recursive_distinct($_options, $options);
 

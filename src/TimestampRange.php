@@ -61,9 +61,9 @@ class TimestampRange extends AbstractFilter {
      *
      * @return void
      */
-    public function daterangepicker($options = []) {
+    public function daterangepicker($conf = 'default', $options = []) {
 
-        $_options = $this->trans(config('daterangepicker.timestamp'));
+        $_options = $this->trans(config("daterangepicker.{$conf}"));
 
         $options = array_merge_recursive_distinct($_options, $options);
 
