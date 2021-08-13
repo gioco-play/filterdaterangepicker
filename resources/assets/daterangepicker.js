@@ -511,9 +511,6 @@
 
             if (this.maxSpan && this.startDate.clone().add(this.maxSpan).isBefore(this.endDate))
                 this.endDate = this.startDate.clone().add(this.maxSpan);
-
-            // endDate = endDate.endOf('day')
-            // this.endDate =  this.endDate.endOf('day')
             
             this.previousRightTime = this.endDate.clone();
 
