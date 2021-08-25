@@ -8,7 +8,13 @@ use Illuminate\Support\Arr;
 
 class TimestampRange extends AbstractFilter {
 
+    protected $timezone;
 
+    public function timezone($timezone) {
+        $this->timezone = $timezone;
+        return $this;
+    }
+    
     /**
      * Get condition of this filter.
      *
@@ -18,6 +24,8 @@ class TimestampRange extends AbstractFilter {
      */
     public function condition($inputs)
     {
+        $timezone = empty($this->timezone)?date_default_timezone_get():$this->timezone;
+
         if (!Arr::has($inputs, $this->column)) {
             return;
         }
@@ -36,8 +44,8 @@ class TimestampRange extends AbstractFilter {
             return;
         }
 
-        $value['start'] = isset($value['start']) ? date_to_utc($value['start'])."000" : null;
-        $value['end'] = isset($value['end']) ? date_to_utc($value['end'])."999" : null;
+        $value['start'] = isset($value['start']) ? date_to_utc($value['start'], $timezone)."000" : null;
+        $value['end'] = isset($value['end']) ? date_to_utc($value['end'], $timezone)."999" : null;
 
         if (!isset($value['start'])) {
             return $this->buildCondition($this->column, '<=', $value['end']);
