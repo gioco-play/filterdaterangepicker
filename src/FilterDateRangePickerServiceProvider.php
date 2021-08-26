@@ -24,6 +24,7 @@ class FilterDateRangePickerServiceProvider extends ServiceProvider
 
         Admin::booting(function () {
             Admin::js('vendor/laravel-admin-ext/filterdaterangepicker/moment.min.js');
+            Admin::js('vendor/laravel-admin-ext/filterdaterangepicker/moment-timezone-with-data.min.js');
             Admin::js('vendor/laravel-admin-ext/filterdaterangepicker/daterangepicker.js');
             Admin::css('vendor/laravel-admin-ext/filterdaterangepicker/daterangepicker.css');
         });
