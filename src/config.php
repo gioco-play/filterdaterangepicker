@@ -3,7 +3,7 @@
 return [
 
     'default' => [
-        'maxDate' => date('Y-m-d 23:59:59', strtotime('+0 day')),
+        'maxDate' => date('Y-m-d H:i:s', strtotime('+0 day')),
         "maxSpan" => [
             "days" => 7
         ],

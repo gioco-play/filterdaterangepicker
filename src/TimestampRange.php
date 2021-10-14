@@ -5,6 +5,7 @@ namespace GiocoPlus\FilterDateRangePicker;
 use GiocoPlus\Admin\Grid\Filter\AbstractFilter;
 use GiocoPlus\FilterDateRangePicker\Presenter\FilterDaterangePicker;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 
 class TimestampRange extends AbstractFilter {
 
@@ -14,7 +15,7 @@ class TimestampRange extends AbstractFilter {
         $this->timezone = $timezone;
         return $this;
     }
-    
+
     /**
      * Get condition of this filter.
      *
@@ -79,19 +80,40 @@ class TimestampRange extends AbstractFilter {
     }
 
     /**
-     * 翻譯config
+     * 翻譯config & 時間轉換
      *
      * @param array $config
      * @return void
      */
     private function trans($config = [])
     {
+        $tz = date_default_timezone_get();
+
+        if (isset($config['ranges']) && $r1 = array_values($config['ranges'])[0][0]) {
+            switch (strlen($r1)){
+                case 10:
+                    $format = "Y-m-d";
+                    break;
+                case 13:
+                    $format = "Y-m-d H";
+                    break;
+                default:
+                    $format = "Y-m-d H:i:s";
+            }
+        }
+
         foreach ($config as $key => $value) {
 
             switch ($key) {
+                case 'maxDate':
+                case 'minDate':
+                    $config[$key] = Carbon::parse($value, $tz)->timezone($this->timezone)->endOfDay()->format("Y-m-d H:i:s");
+                    break;
                 case 'ranges':
                     $ranges = [];
                     foreach ($value as $k => $v) {
+                        $config[$key][$k][0] = Carbon::createFromFormat($format, $config[$key][$k][0], $tz)->timezone($this->timezone)->startOfDay()->format("Y-m-d H:i:s");
+                        $config[$key][$k][1] = Carbon::createFromFormat($format, $config[$key][$k][1], $tz)->timezone($this->timezone)->endOfDay()->format("Y-m-d H:i:s");
                         $ranges[trans($k)] = $v;
                     }
                     $config['ranges'] = $ranges;
