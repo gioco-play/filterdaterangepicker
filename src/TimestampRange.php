@@ -72,7 +72,7 @@ class TimestampRange extends AbstractFilter {
      */
     public function daterangepicker($conf = 'default', $options = []) {
 
-        $_options = $this->trans(config("daterangepicker.{$conf}"));
+        $_options = $this->fmt(config("daterangepicker.{$conf}"));
 
         $options = array_merge_recursive_distinct($_options, $options);
 
@@ -80,41 +80,29 @@ class TimestampRange extends AbstractFilter {
     }
 
     /**
-     * 翻譯config & 時間轉換
-     *
+     * Option格式化
      * @param array $config
      * @return void
      */
-    private function trans($config = [])
+    private function fmt($config = [])
     {
-        $tz = date_default_timezone_get();
-
-        if (isset($config['ranges']) && $r1 = array_values($config['ranges'])[0][0]) {
-            switch (strlen($r1)){
-                case 10:
-                    $format = "Y-m-d";
-                    break;
-                case 13:
-                    $format = "Y-m-d H";
-                    break;
-                default:
-                    $format = "Y-m-d H:i:s";
-            }
-        }
-
         foreach ($config as $key => $value) {
 
             switch ($key) {
-                case 'maxDate':
                 case 'minDate':
-                    $config[$key] = Carbon::parse($value, $tz)->timezone($this->timezone)->endOfDay()->format("Y-m-d H:i:s");
+                case 'startDate':
+                    $config[$key] = $this->transDateTime($config[$key]['method'], $config[$key]['start'], 'start')->format("Y-m-d H:i:s");
+                    break;
+                case 'maxDate':
+                case 'endDate':
+                    $config[$key] = $this->transDateTime($config[$key]['method'], $config[$key]['end'], 'end')->format("Y-m-d H:i:s");
                     break;
                 case 'ranges':
                     $ranges = [];
                     foreach ($value as $k => $v) {
-                        $config[$key][$k][0] = Carbon::createFromFormat($format, $config[$key][$k][0], $tz)->timezone($this->timezone)->startOfDay()->format("Y-m-d H:i:s");
-                        $config[$key][$k][1] = Carbon::createFromFormat($format, $config[$key][$k][1], $tz)->timezone($this->timezone)->endOfDay()->format("Y-m-d H:i:s");
-                        $ranges[trans($k)] = $v;
+                        $format = $v['format'] ?? "Y-m-d H:i:s";
+                        $ranges[trans($k)][] =  $this->transDateTime($v['method'], $v['start'], 'start')->format($format);
+                        $ranges[trans($k)][] =  $this->transDateTime($v['method'], $v['end'], 'end')->format($format);
                     }
                     $config['ranges'] = $ranges;
                     break;
@@ -127,6 +115,33 @@ class TimestampRange extends AbstractFilter {
             }
         }
         return $config;
+    }
+
+    /**
+     * 時區轉換
+     * @param $method
+     * @param $during
+     * @param $near
+     * @return Carbon
+     */
+    private function transDateTime($method, $during, $near){
+        $now = Carbon::now(date_default_timezone_get())->timezone($this->timezone);
+        switch ($method) {
+            case 'day':
+                $now = $now->addDays($during);
+                $now = $near == 'end' ? $now->endOfDay() : $now->startOfDay() ;
+                break;
+            case 'week':
+                $now = $now->addWeeks($during);
+                $now = $near == 'end' ? $now->endOfWeek() : $now->startofWeek() ;
+                break;
+            case 'month':
+                $now = $now->addMonths($during);
+                $now = $near == 'end' ? $now->endOfMonth() : $now->startOfMonth() ;
+                break;
+        }
+
+        return $now;
     }
 
 }
