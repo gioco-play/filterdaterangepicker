@@ -24,9 +24,9 @@ class DatetimeRange extends AbstractFilter {
 
         preg_match_all("/\d{4}-\d{2}-\d{2}[\s]\d{2}:\d{2}:\d{2}/i", Arr::get($inputs, $this->column), $out);
 
-
-        $this->value['start'] = $out[0][0] ?? date('Y-m-d h:i:s');
-        $this->value['end'] = $out[0][1] ?? date('Y-m-d h:i:s');
+        $this->value = [];
+        $this->value['start'] = Carbon::parse($out[0][0]) ?? date('Y-m-d h:i:s');
+        $this->value['end'] = Carbon::parse($out[0][1]) ?? date('Y-m-d h:i:s');
 
         $value = array_filter($this->value, function ($val) {
             return $val !== '';
@@ -45,6 +45,8 @@ class DatetimeRange extends AbstractFilter {
         }
 
         $this->query = 'whereBetween';
+
+        $this->value = array_values($this->value);
 
         return $this->buildCondition($this->column, $this->value);
     }
